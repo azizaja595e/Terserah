@@ -1,6 +1,7 @@
 import express from 'express';
 import noteRouter from './routes/note.js';
 import mongoose from 'mongoose';
+import cors from "cors";
 import { Post } from './models/index.js'; // Import named export menggunakan { }
 
 const app = express()
@@ -13,6 +14,8 @@ mongoose.connect('mongodb+srv://azizaja595:47474846@aziz.tqem1qd.mongodb.net/?ap
   });
 
 app.use(express.json());
+
+app.use(cors({origin:"*"}));
 
 app.use('/notes', noteRouter);
 
