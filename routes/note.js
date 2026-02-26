@@ -5,11 +5,18 @@ import { Post } from '../models/index.js';
 
 const router = Router();
 
-router.get('/', (req, res, next) => {
-  const notes = Note.list();
-  res.json(notes);
-});
-
+// router.get('/', (req, res, next) => {
+//   const notes = Note.list();
+//   res.json(notes);
+// });
+router.get("/", async(req, res) => {
+  try{
+    const notes = await Post.find();
+    res.status(200).json(notes);
+  }catch(e){
+    res.status(500).json({error: "Gagal mengambil data catatan"})
+  }
+})
 router.get('/:id', (req, res, next) => {
   const id = Number(req.params.id);
   try {
