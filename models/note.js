@@ -9,9 +9,10 @@ let notes = [
 
 // Menggunakan named export
 export const list = () => {
-  return notes.map(({ id, title }) => ({
+  return notes.map(({ id, title, author }) => ({
     id,
     title,
+    author
   }));
 };
 
@@ -27,7 +28,7 @@ export const get = (id) => {
 };
 
 // Fungsi untuk membuat catatan baru
-export const create = (title, content) => {
+export const create = (title, content, author) => {
   // Mengambil ID terakhir dari array notes
   const { id: lastId } = notes[notes.length - 1];
   
@@ -35,13 +36,14 @@ export const create = (title, content) => {
     id: lastId + 1,
     title,
     content,
+    author
   };
   
   notes.push(newNote);
   return newNote;
 };
 
-export const update = (id, title, content) => {
+export const update = (id, title, content, author) => {
   // Mencari indeks catatan di dalam array
   const index = notes.findIndex(
     (note) => note.id === id
@@ -56,6 +58,7 @@ export const update = (id, title, content) => {
   const note = notes[index];
   note.title = title;
   note.content = content;
+  note.author = author;
   
   notes[index] = note;
   return note;
