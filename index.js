@@ -3,6 +3,7 @@ import noteRouter from './routes/note.js';
 import mongoose from 'mongoose';
 import cors from "cors";
 import { Post } from './models/index.js'; // Import named export menggunakan { }
+import userRouter from './routes/auth.js';
 
 const app = express()
 mongoose.connect('mongodb+srv://azizaja595:47474846@aziz.tqem1qd.mongodb.net/?appName=Aziz')
@@ -16,6 +17,9 @@ mongoose.connect('mongodb+srv://azizaja595:47474846@aziz.tqem1qd.mongodb.net/?ap
 app.use(express.json());
 
 app.use(cors({origin:"*"}));
+
+// Gunakan router auth dengan prefix '/auth'
+app.use('/auth', userRouter);
 
 app.use('/notes', noteRouter);
 
