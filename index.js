@@ -62,8 +62,6 @@ app.use((req, res, next) => {
   });
 });
 
-
-
 app.listen(3000, () => {
     console.log('Server jalan di http://localhost:3000');
 });
