@@ -1,11 +1,16 @@
-import { Schema } from 'mongoose';
+import mongoose from "mongoose";
 
-const userSchema = new Schema({
-  name: String,
-  email: String,
-  password: String,
-}, {
-  timestamps: true,
-});
+const { Schema } = mongoose;
 
-export default userSchema;
+const UserSchema = new Schema(
+  {
+    name: String,
+    email: String,
+    password: String,
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export default UserSchema;

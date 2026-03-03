@@ -1,11 +1,13 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import crypto from 'crypto';
-// Sesuaikan path import model user kamu
 import userSchema from '../models/schemas/user.js'; 
+import jwt from 'jsonwebtoken';
+import { getJwtSecret} from '../config/env.js';
 
 const router = express.Router();
 const User = mongoose.model('User', userSchema);
+
 
 // Fungsi hash sederhana (Latihan)
 const hashSHA256 = (text) => {
@@ -35,10 +37,17 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && user.password === hashSHA256(password)) {
-      res.json({ message: "Login Berhasil", userName: user.name });
+      const token = jwt.sign(
+        { sub: user._id.toString(), username: user.name}, 
+        getJwtSecret(),
+        { expiresIn: '1h'}
+      );
+      res.json({result:'success', token});
+
     } else {
       res.status(401).json({ message: "Email atau Password salah" });
     }
+
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
