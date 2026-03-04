@@ -2,6 +2,7 @@
 import { Router } from 'express';
 import * as Note from '../models/note.js'; // Mengimpor semua named exports sebagai object Note
 import { Post } from '../models/index.js';
+import { jwtRequired } from '../index.js';
 
 const router = Router();
 
@@ -50,7 +51,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.post('/', async(req, res, next) => {
+router.post('/', jwtRequired, async(req, res, next) => {
 
   const { title, content, author } = req.body;   // Mengambil data dari body request
   
@@ -90,7 +91,7 @@ router.post('/', async(req, res, next) => {
 // });
 
 //[Put MongoDB]
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', jwtRequired, async (req, res, next) => {
   const { id } = req.params;
   const { title, content, author } = req.body;
 
@@ -132,7 +133,7 @@ router.put('/:id', async (req, res, next) => {
 
 //Delete MongoDB
 // Tambahkan async agar bisa menggunakan await
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', jwtRequired, async (req, res, next) => {
   const { id } = req.params;
 
   try {

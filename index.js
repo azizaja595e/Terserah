@@ -22,7 +22,7 @@ app.use(cors({origin:"*"}));
 
 // Gunakan router auth dengan prefix '/auth'
 app.use('/auth', userRouter);
-app.use('/notes', noteRouter);
+// app.use('/notes', noteRouter);
 
 app.use((req,res,next) => {
     if(false) {
@@ -57,6 +57,30 @@ app.use((err, req, res, next) => {
 app.use((err,req,res,next) => {
     res.send('Error dong');
 });
+
+ // Middleware JWT Required
+ function jwtRequired(req, res, next) {
+  const authHeader = req.headers.authorization;
+  
+  if (!authHeader) {
+    return res.status(401).json({ message: "Token tidak ada"});
+  }
+
+  const token = authHeader.split(" ") [1];
+  try {
+    const decoded = jwt.verify(token, getJwtSecret());
+    req.user = decoded;
+    next();
+  
+  } catch (err) {
+    return res.status(401).json({ message: "Token Tidak Valid"})
+  }
+
+ }
+
+app.use('/notes', noteRouter);
+export { jwtRequired }
+
 
 
 app.use((req, res, next) => {
