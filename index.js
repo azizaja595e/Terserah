@@ -2,8 +2,12 @@ import express from 'express';
 import noteRouter from './routes/note.js';
 import mongoose from 'mongoose';
 import cors from "cors";
+import dotenv from "dotenv";
+import paymentRoutes from "./routes/paymentRoute.js";
 import { Post } from './models/index.js'; // Import named export menggunakan { }
 import userRouter from './routes/auth.js';
+
+dotenv.config();
 
 const app = express()
 
@@ -18,11 +22,16 @@ mongoose.connect('mongodb+srv://azizaja595:47474846@aziz.tqem1qd.mongodb.net/?ap
 app.use(express.json());
 app.use(cors({origin:"*"}));
 
+app.get("/", (req,res) => {
+  res.send("Hello Midtrans!");
+});
 
 
-// Gunakan router auth dengan prefix '/auth'
+
 app.use('/auth', userRouter);
-// app.use('/notes', noteRouter);
+app.use('/notes', noteRouter);
+
+app.use('/payment', paymentRoutes);
 
 app.use((req,res,next) => {
     if(false) {

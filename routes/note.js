@@ -6,7 +6,7 @@ import { jwtRequired } from '../index.js';
 
 const router = Router();
 //TESs
-
+///cncnc 
 // router.get('/', (req, res, next) => {
 //   const notes = Note.list();
 //   res.json(notes);

@@ -25,6 +25,17 @@ router.post('/register', async (req, res) => {
     });
     await newUser.save();
     res.status(201).json({ message: "User Terdaftar!" });
+
+    let emailSent = false;
+    try{
+      emailSent = await sendSignupSuccessEmail({
+        to: newUser.email,
+        username: newUser.name
+      });
+    } catch (emailError) {
+      console.error('Failed to send signup email:', mailError.message);
+    }
+    
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
