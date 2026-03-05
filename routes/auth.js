@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import userSchema from '../models/schemas/user.js'; 
 import jwt from 'jsonwebtoken';
 import { getJwtSecret} from '../config/env.js';
+import { sendSignupSuccessEmail } from '../services/emailService.js';
 
 const router = express.Router();
 const User = mongoose.model('User', userSchema);
@@ -24,8 +25,7 @@ router.post('/register', async (req, res) => {
       password: hashSHA256(password)
     });
     await newUser.save();
-    res.status(201).json({ message: "User Terdaftar!" });
-
+    
     let emailSent = false;
     try{
       emailSent = await sendSignupSuccessEmail({
@@ -33,8 +33,9 @@ router.post('/register', async (req, res) => {
         username: newUser.name
       });
     } catch (emailError) {
-      console.error('Failed to send signup email:', mailError.message);
+      console.error('Failed to send signup email:', emailError.message);
     }
+    res.status(201).json({ message: "User Terdaftar!" });
     
   } catch (err) {
     res.status(500).json({ message: err.message });

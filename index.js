@@ -20,7 +20,7 @@ mongoose.connect('mongodb+srv://azizaja595:47474846@aziz.tqem1qd.mongodb.net/?ap
   });
 
 app.use(express.json());
-app.use(cors({origin:"*"}));
+app.use(cors({origin:"*", methods: ["GET", "POST", "PUT", "DELETE"]}));
 
 app.get("/", (req,res) => {
   res.send("Hello Midtrans!");
